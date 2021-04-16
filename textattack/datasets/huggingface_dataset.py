@@ -5,6 +5,7 @@ HuggingFaceDataset:
 
 import collections
 import random
+import json
 
 import datasets
 
@@ -85,13 +86,22 @@ class HuggingFaceDataset(TextAttackDataset):
         output_scale_factor=None,
         dataset_columns=None,
         shuffle=False,
+        type_of_file="csv",
+        data_files=None,
     ):
         self._name = name
-        self._dataset = datasets.load_dataset(name, subset)[split]
-        subset_print_str = f", subset {_cb(subset)}" if subset else ""
-        textattack.shared.logger.info(
-            f"Loading {_cb('datasets')} dataset {_cb(name)}{subset_print_str}, split {_cb(split)}."
-        )
+        if not data_files:
+            self._dataset = datasets.load_dataset(name, subset)[split]
+            subset_print_str = f", subset {_cb(subset)}" if subset else ""
+            textattack.shared.logger.info(
+                f"Loading {_cb('datasets')} dataset {_cb(name)}{subset_print_str}, split {_cb(split)}."
+            )
+        else:
+            # example data_files format data_files={'train': 'train.csv', 'test': 'test.csv'}
+            self._dataset = datasets.load_dataset(type_of_file, data_files=json.loads(data_files))[split]
+            textattack.shared.logger.info(
+                f"Loading {_cb('datasets')} dataset {_cb(name)}, split {_cb(split)}."
+            )
         # Input/output column order, like (('premise', 'hypothesis'), 'label')
         (
             self.input_columns,

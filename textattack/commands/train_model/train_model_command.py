@@ -51,6 +51,20 @@ class TrainModelCommand(TextAttackCommand):
             " ex: `glue^sst2` or `rotten_tomatoes`",
         )
         parser.add_argument(
+            "--data-files",
+            type=str,
+            default=None,
+            help="provide custom dataset for training; python dictionary in json string format"
+                 " provide train, test, eval file path with separate keys like the following"
+                 " '{'train': 'path_to_train_file', 'test': 'path_to_test_file'}'",
+        )
+        parser.add_argument(
+            "--type-of-file",
+            type=str,
+            default='csv',
+            help="file type of custom dataset; has to match with the data-files format",
+        )
+        parser.add_argument(
             "--pct-dataset",
             type=float,
             default=1.0,

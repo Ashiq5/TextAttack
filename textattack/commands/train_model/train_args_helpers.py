@@ -37,12 +37,12 @@ def dataset_from_args(args):
     # TODO `HuggingFaceDataset` -> `HuggingFaceDataset`
     if args.dataset_train_split:
         train_dataset = textattack.datasets.HuggingFaceDataset(
-            *dataset_args, split=args.dataset_train_split
+            *dataset_args, split=args.dataset_train_split, data_files=args.data_files, type_of_file=args.type_of_file
         )
     else:
         try:
             train_dataset = textattack.datasets.HuggingFaceDataset(
-                *dataset_args, split="train"
+                *dataset_args, split="train", data_files=args.data_files, type_of_file=args.type_of_file
             )
             args.dataset_train_split = "train"
         except KeyError:
@@ -51,31 +51,31 @@ def dataset_from_args(args):
 
     if args.dataset_dev_split:
         eval_dataset = textattack.datasets.HuggingFaceDataset(
-            *dataset_args, split=args.dataset_dev_split
+            *dataset_args, split=args.dataset_dev_split, data_files=args.data_files, type_of_file=args.type_of_file
         )
     else:
         # try common dev split names
         try:
             eval_dataset = textattack.datasets.HuggingFaceDataset(
-                *dataset_args, split="dev"
+                *dataset_args, split="dev", data_files=args.data_files, type_of_file=args.type_of_file
             )
             args.dataset_dev_split = "dev"
         except KeyError:
             try:
                 eval_dataset = textattack.datasets.HuggingFaceDataset(
-                    *dataset_args, split="eval"
+                    *dataset_args, split="eval", data_files=args.data_files, type_of_file=args.type_of_file
                 )
                 args.dataset_dev_split = "eval"
             except KeyError:
                 try:
                     eval_dataset = textattack.datasets.HuggingFaceDataset(
-                        *dataset_args, split="validation"
+                        *dataset_args, split="validation", data_files=args.data_files, type_of_file=args.type_of_file
                     )
                     args.dataset_dev_split = "validation"
                 except KeyError:
                     try:
                         eval_dataset = textattack.datasets.HuggingFaceDataset(
-                            *dataset_args, split="test"
+                            *dataset_args, split="test", data_files=args.data_files, type_of_file=args.type_of_file
                         )
                         args.dataset_dev_split = "test"
                     except KeyError:
