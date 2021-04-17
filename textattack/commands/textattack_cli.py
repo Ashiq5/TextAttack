@@ -18,7 +18,7 @@ from textattack.commands.train_model import TrainModelCommand
 
 def main():
 
-    """This is the main command line parer and entry function to use TextAttack
+    """This is the main command line parser and entry function to use TextAttack
     via command lines.
 
     texattack <command> [<args>]
